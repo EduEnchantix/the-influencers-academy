@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Influencer’s Academy – Escape Room</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{--pink:#ff7aa8;--orange:#ff9f43;--butter:#ffe27a;--tomato:#e8412f;--cream:#fff6e3;--ink:#4a2b2b}
+*{box-sizing:border-box;margin:0}
+body{min-height:100vh;font-family:Nunito,'Trebuchet MS',sans-serif;font-weight:700;color:var(--ink);background:var(--cream) radial-gradient(circle,#ffd9c4 2px,transparent 2.5px) 0 0/34px 34px}
+h2,h3,.btn,.pill,header b{font-family:'Baloo 2','Arial Rounded MT Bold',sans-serif}
+h2{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:800;color:var(--tomato);text-shadow:2px 2px 0 var(--butter);margin-bottom:10px}
+p{font-size:clamp(1.05rem,1.9vw,1.35rem);line-height:1.45;margin:6px 0}
+#fl{position:fixed;inset:0;pointer-events:none;overflow:hidden}
+#fl span{position:absolute;bottom:-60px;opacity:.5;animation:rise linear infinite}
+@keyframes rise{to{transform:translateY(-115vh) rotate(360deg)}}
+header{position:sticky;top:0;z-index:5;background:var(--ink);color:#fff;display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:10px 4vw}
+header b{font-size:1.3rem;flex:1}
+#pr{display:flex;gap:6px;flex-wrap:wrap}
+#pr i{font-style:normal;font:800 .95rem 'Baloo 2';background:var(--cream);color:var(--ink);border-radius:999px;padding:2px 12px}
+#pr i.on{background:var(--pink);color:#fff}
+main{position:relative;max-width:1100px;margin:auto;padding:22px 4vw 40px;animation:pop .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{from{opacity:0;transform:translateY(20px)}}
+.card{background:#fff;border:4px solid var(--ink);border-radius:28px;box-shadow:6px 7px 0 var(--ink);padding:20px}
+.btn{font-size:1.4rem;font-weight:800;color:#fff;background:var(--tomato);border:4px solid var(--ink);border-radius:999px;padding:8px 28px;cursor:pointer;box-shadow:0 5px 0 var(--ink);text-decoration:none;display:inline-block;margin:10px 8px 6px 0}
+.btn.sm{font-size:1.05rem;padding:4px 18px;background:var(--orange)}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.pill{font-size:1rem;font-weight:800;background:#fff;border:3px solid var(--ink);border-radius:999px;padding:3px 14px;cursor:pointer;color:var(--ink)}
+button:focus-visible,a:focus-visible{outline:4px dashed var(--pink);outline-offset:3px}
+.teams{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.team{text-align:center}.team .lock{font-size:3.6rem;display:block}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px;align-items:start}
+.q{border-top:3px dashed var(--pink);padding:10px 0}
+.big{font-size:3.4rem}
+.opts{display:flex;flex-wrap:wrap;gap:10px;margin:8px 0}
+.opt,.chip,.say{font:900 1.15rem Nunito,sans-serif;color:var(--ink);background:var(--butter);border:3px solid var(--ink);border-radius:18px;padding:8px 16px;cursor:pointer}
+.chip{cursor:default;background:#ffd2a1}
+.opt:hover{transform:rotate(-2deg) scale(1.04)}
+.opt.good{background:#b9f0a0}.opt.bad{background:#ffb3a6;animation:sh .4s}
+.opt.sel{background:var(--pink);color:#fff}.opt.sel::before{content:"✔ "}
+.say{display:block;margin:8px 0;text-align:left;width:100%;background:#ffc4d8}
+@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#fb{min-height:2em;font-size:1.25rem;color:var(--tomato)}
+.clue{background:var(--butter);border:3px dashed var(--ink);border-radius:18px;padding:12px;font-size:1.3rem;margin:10px 0}
+aside li{list-style:none;margin:8px 0;font-size:1.1rem}
+.st{position:fixed;font-size:2.2rem;animation:up 1.4s forwards;pointer-events:none}
+@keyframes up{to{transform:translateY(-200px) rotate(60deg);opacity:0}}
+.coop{background:#ffe9f1;border:3px dashed var(--pink);border-radius:16px;padding:8px 12px;margin-bottom:10px;font-size:1.05rem}
+#ov{position:fixed;inset:0;background:rgba(74,43,43,.65);z-index:20;display:flex;align-items:flex-start;justify-content:center;padding:16px;overflow:auto}
+#ov[hidden]{display:none}#ovc{max-width:900px;width:100%}
+.rg,.bgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin:12px 0}
+.rg .card{text-align:center;padding:12px}.rg p{font-size:1rem}
+.bd{background:var(--c);border:4px solid var(--ink);border-radius:22px;padding:12px;text-align:center}
+.bd.lk{background:#e7e1d8;color:#6b5a5a;border-style:dashed}
+.medal{width:84px;height:84px;margin:0 auto 6px;border-radius:50%;background:#fff;border:5px solid var(--ink);box-shadow:0 5px 0 var(--ink);display:flex;align-items:center;justify-content:center;font-size:2.6rem}
+.bd.lk .medal{filter:grayscale(1);opacity:.6;box-shadow:none}
+.bd p{font-size:.95rem}
+.bar{height:22px;background:#fff;border:3px solid var(--ink);border-radius:999px;overflow:hidden}.bar i{display:block;height:100%;background:var(--pink);transition:width .5s}
+@media(max-width:800px){.grid{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+<div id="fl" aria-hidden="true"></div>
+<header><a class="btn sm" href="index.html" style="margin:0">← Go back</a><b>🍳 Escape Room</b><span id="hb" style="display:none;gap:8px"><button class="btn sm" style="margin:0" onclick="showRoles()">👥 Roles</button><button class="btn sm" style="margin:0" id="bb" onclick="badges()">🏅 Badges</button></span><div id="pr"></div></header>
+<div id="ov" hidden role="dialog" aria-modal="true" aria-label="Team information"><div class="card" id="ovc"></div></div>
+<main id="main"></main>
+<script>
+const KEY='ia_progress_v1';
+const hash=s=>{let h=5381;for(const c of 'ia-'+s)h=(h*33^c.charCodeAt(0))>>>0;return h.toString(36)};
+const load=()=>{try{return JSON.parse(localStorage.getItem(KEY))||{g:{}}}catch(e){return{g:{}}}};
+const store=p=>{try{localStorage.setItem(KEY,JSON.stringify(p))}catch(e){alert('Your browser cannot save progress.')}};
+const sig=(n,o)=>hash(n+JSON.stringify([o.done,o.clues,o.sand||0]));
+const sg=n=>{const o=load().g[n];return o&&o.s===sig(n,o)?o:{done:[0,0,0,0],clues:[]}};
+const put=(n,o)=>{const p=load();o.s=sig(n,o);p.g[n]=o;store(p)};
+const E={bread:['🍞','#f4a23c'],cheese:['🧀','#ffd93d'],ham:['🍖','#ff9bb8'],chicken:['🐔','#f2c88f'],tuna:['🐟','#9fc5e8'],tomato:['🍅','#e8412f'],lettuce:['🥬','#7ccf4c'],egg:['🥚','#fff3b0'],butter:['🧈','#ffe27a'],sauce:['🥫','#ff6b4a'],salt:['🧂','#eee'],onion:['🧅','#e6c3f0'],avocado:['🥑','#a8d672'],pepper:['⚫','#999'],olives:['🫒','#8a9a4a'],cucumber:['🥒','#9ad36a'],turkey:['🦃','#e9a97c'],sausage:['🌭','#c9694a'],bacon:['🥓','#e5645a'],pickles:['🫙','#6fb34a']};
+const V={'to grill':'🔥🥪','to melt':'🧀💦','to slice':'🍅🔪','to dip':'🍟🥫','to grate':'🧀⬇️','to taste':'😋','to spread':'🧈🍞','to pour':'🫗'};
+const P={tomato:'tomatoes',egg:'eggs',avocado:'avocados',onion:'onions',cucumber:'cucumbers'};
+const pl=w=>P[w]||w;
+const list=a=>a.length>1?a.slice(0,-1).join(', ')+' and '+a[a.length-1]:a[0];
+// c1: 3 fridge words [answer,wrong,wrong] · c2: 2 customers [answer,wrong,wrong] (2nd: 3rd word = disliked) · c3: 3 actions (first 2 = sandwich actions) · xi/xa: extra options for the final kitchen
+const G=[
+{n:'Star Melt',i:'⭐',c1:[['bread','egg','salt'],['ham','tuna','turkey'],['cheese','bacon','butter']],c2:[['tomato','avocado','egg'],['lettuce','olives','onion']],c3:[['to grill','to pour','to slice'],['to melt','to taste','to dip'],['to spread','to grate','to pour']],xi:['egg','sausage'],xa:['to taste','to dip'],ph:['It has got ham.','It has got cheese.','You should try tomatoes in your sandwich.']},
+{n:'Dip Hero',i:'🦸',c1:[['bread','cheese','egg'],['chicken','ham','tuna'],['avocado','tomato','onion']],c2:[['cucumber','olives','bacon'],['sauce','salt','pepper']],c3:[['to slice','to grill','to pour'],['to dip','to melt','to taste'],['to grate','to spread','to grill']],xi:['turkey','egg'],xa:['to grate','to spread'],ph:['It has got chicken.','It has got avocados.','You should dip it in sauce.']},
+{n:'Spicy Crunch',i:'🌶️',c1:[['bread','egg','salt'],['tuna','chicken','ham'],['pickles','sausage','bacon']],c2:[['cheese','tomato','avocado'],['olives','lettuce','onion']],c3:[['to grate','to dip','to pour'],['to taste','to slice','to melt'],['to spread','to grill','to dip']],xi:['turkey','butter'],xa:['to pour','to melt'],ph:['It has got tuna.','It has got olives.','You should try spicy pickles in your sandwich.']},
+{n:'Juicy Boss',i:'👑',c1:[['bread','cheese','salt'],['turkey','chicken','sausage'],['bacon','ham','tuna']],c2:[['egg','tomato','olives'],['butter','sauce','onion']],c3:[['to spread','to grill','to pour'],['to slice','to dip','to melt'],['to taste','to grate','to grill']],xi:['cucumber','lettuce'],xa:['to grill','to dip'],ph:['It has got butter.','It has got bacon.','You should try eggs in your sandwich.']}];
+const cols=['#ffc4d8','#ffd2a1','#fff0a8','#ffb3a6'];
+const ings=g=>[...g.c1.map(x=>x[0]),...g.c2.map(x=>x[0])],acts=g=>[g.c3[0][0],g.c3[1][0]];
+const shuf=a=>[...a].sort(()=>Math.random()-.5);
+const say=t=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.8;speechSynthesis.speak(u)}catch(e){}};
+const T=['Open the fridge!','Help the followers!','Check the tools!','Make your sandwich!'],S=['The fridge is closed. What is in it? Choose the words.','Your followers are hungry. Read and choose the best sentence.','The tools are in a mess. Choose the action words.','Read your clues. Make your sandwich!'];
+let n=0,st;
+function pr(){document.getElementById('pr').innerHTML=n?[0,1,2,3].map(i=>`<i class="${!st.done[i]&&st.done.indexOf(0)==i?'on':''}">${i+1} ${st.done[i]?'✔':st.done.indexOf(0)==i?'▶':'🔒'}</i>`).join(''):'';hb.style.display=n?'flex':'none';if(n)bb.textContent='🏅 Badges '+st.done.filter(Boolean).length+'/4'}
+function svg(a){const m=a.filter(i=>i!='bread'),h=100+m.length*34;let y=60,s=`<svg viewBox="0 0 300 ${h}" style="width:100%;max-width:320px" role="img" aria-label="Your sandwich"><path d="M30 60Q30 8 150 8T270 60Z" fill="#f4a23c" stroke="#4a2b2b" stroke-width="5"/>`;m.forEach(i=>{s+=`<rect x="22" y="${y}" width="256" height="30" rx="14" fill="${E[i][1]}" stroke="#4a2b2b" stroke-width="4"/><text x="150" y="${y+22}" text-anchor="middle" font-size="19">${E[i][0].repeat(5)}</text>`;y+=34});return s+`<path d="M30 ${y+4}h240v12q0 30-120 30T30 ${y+16}z" fill="#f4a23c" stroke="#4a2b2b" stroke-width="5"/></svg>`}
+const BD=[{n:'Fridge Explorer',i:'🧊',d:'Your team found the words in the fridge.',c:'#b9e3ff'},{n:'Recommendation Star',i:'⭐',d:'Your team helped the followers with “You should…”.',c:'#ffd2a1'},{n:'Action Chef',i:'🔪',d:'Your team knows the cooking action words.',c:'#ffc4d8'},{n:'Sandwich Champion',i:'🏆',d:'Your team used the clues to make the perfect sandwich.',c:'#fff0a8'}];
+const RL=[['🔍','Clue Detective','Reads each clue aloud and helps the team understand what it asks.'],['📚','Vocabulary Expert','Helps the team remember and use the English vocabulary studied in class.'],['💬','Team Communicator','Makes sure everyone has the opportunity to share their ideas and explain their reasoning.'],['📋','Progress Keeper','Checks the team’s progress, keeps track of the clues solved and makes sure the group follows the mission.']];
+const CO=['💬 Share your ideas!','👂 Listen to your teammates!','🤝 Agree on your answer before submitting it!','💬 Share your ideas! 👂 Listen! 🤝 Agree before you check!'];
+const rc=()=>`<div class="rg">${RL.map(r=>`<div class="card"><div class="big">${r[0]}</div><h3>${r[1]}</h3><p>${r[2]}</p></div>`).join('')}</div><div class="clue">🤝 We all think, we all share, and we solve every clue together!<br>🔄 Change roles in every challenge.</div>`;
+const bnr=i=>`<div class="clue">🏅 <b>Badge unlocked! Great teamwork!</b><br>${BD[i].i} ${BD[i].n}: ${BD[i].d}</div>`;
+const bcard=(b,u)=>`<div class="bd ${u?'':'lk'}" style="--c:${b.c}"><div class="medal">${u?b.i:'🔒'}</div><h3>${b.n}</h3><p>${b.d}</p><p><b>${u?'✔ Unlocked':'🔒 Not yet'}</b></p></div>`;
+function intro(){pr();main.innerHTML=`<h2>Group ${n}: Our Team Roles</h2><p>Every group has 4 roles. Everybody listens, shares ideas and agrees.</p>${rc()}<button class="btn" onclick="play()">We are ready! ▶</button>`}
+function showRoles(){ov.hidden=false;ovc.innerHTML=`<h2>👥 Our Team Roles</h2>${rc()}<button class="btn" onclick="ov.hidden=true">Close ✖</button>`}
+function badges(){const c=st.done.filter(Boolean).length;ov.hidden=false;ovc.innerHTML=`<h2>🏅 Our Team Badges</h2><p>Group ${n}: ${c} out of 4 badges unlocked</p><div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="4" aria-valuenow="${c}"><i style="width:${c*25}%"></i></div><div class="bgs">${BD.map((b,k)=>bcard(b,st.done[k])).join('')}</div><button class="btn" onclick="ov.hidden=true">Close ✖</button>`}
+addEventListener('keydown',e=>{if(e.key==='Escape')ov.hidden=true});
+function menu(){n=0;pr();main.innerHTML=`<h2>Choose your group</h2><p>Click your group. Solve 4 challenges. Find your secret sandwich!</p><br><div class="teams">${G.map((g,k)=>{const s=sg(k+1),d=s.done.filter(Boolean).length;return `<div class="card team" style="background:${cols[k]}"><span class="lock">${g.i}</span><h3>Group ${k+1}</h3><p>${s.sand?'✅ Mission complete!':d?'▶ Step '+(d+1)+' of 4':'🔒 Not started'}</p><button class="btn sm" onclick="pick(${k+1})">${s.sand?'See sandwich':d?'Continue':'Start'}</button>${d?`<button class="pill" onclick="reset(${k+1})">↺ Start again</button>`:''}</div>`}).join('')}</div>`}
+function pick(k){n=k;st=sg(k);st.done.some(Boolean)?play():intro()}
+function reset(k){if(confirm('Start again? Only Group '+k+' will start again.')){const p=load();delete p.g[k];store(p);menu()}}
+function play(){const g=G[n-1],i=st.done.indexOf(0);if(i<0)return win();pr();
+ const nb=[0,1,2].map(j=>`<li>${st.done[j]?'🔑 '+st.clues[j]:'🔒 Clue '+(j+1)}</li>`).join('');
+ main.innerHTML=`<div class="grid"><div class="card"><div class="coop">${CO[i]} · 🔄 Change roles in every challenge!</div><h3>Group ${n} · Challenge ${i+1} of 4</h3><h2>${T[i]}</h2><p>${S[i]}</p><div id="qd"></div><div id="fb" role="status"></div><div id="act"></div></div><aside class="card"><h3>📒 Clues</h3><ul>${nb}</ul></aside></div>`;
+ i<3?quiz(i,g):final(g)}
+function qs(i,g){const o=(a,f)=>({o:a.map(f),a:f(a[0])});
+ if(i==0)return g.c1.map(x=>({big:E[x[0]][0],text:'What is it?',...o(x,w=>w)}));
+ if(i==2)return g.c3.map(x=>({big:V[x[0]],text:'What is the action?',...o(x,w=>w)}));
+ return g.c2.map((x,k)=>({text:`Follower: “I want to order a sandwich with ${pl(x[0])}.”${k?` “I don’t like ${pl(x[2])} in my sandwich.”`:''}`,...o(x,w=>`You should try ${pl(w)} in your sandwich.`)}))}
+function quiz(i,g){const Q=qs(i,g),RS=[];
+ Q.forEach(q=>{const d=document.createElement('div');d.className='q';d.innerHTML=`<div class="big">${q.big||'💬'}</div><p>${q.text}</p>`;const o=document.createElement('div');o.className='opts';const r={q,o,sel:null,ok:0};
+  shuf(q.o).forEach(t=>{const b=document.createElement('button');b.className='opt';b.textContent=t;b.setAttribute('aria-pressed','false');b.onclick=()=>{if(r.ok)return;[...o.children].forEach(x=>{x.classList.remove('sel');x.setAttribute('aria-pressed','false')});b.classList.add('sel');b.setAttribute('aria-pressed','true');r.sel=t;say(t)};o.appendChild(b)});
+  d.appendChild(o);qd.appendChild(d);RS.push(r)});
+ act.innerHTML='<button class="btn" id="chk">We agree! Check our answers ✔</button>';
+ chk.onclick=()=>{if(RS.some(r=>!r.ok&&!r.sel)){fb.textContent='Choose an answer for every question. Talk with your team first!';return}
+  let bad=0;RS.forEach(r=>{if(r.ok)return;const b=[...r.o.children].find(x=>x.classList.contains('sel'));if(r.sel===r.q.a){r.ok=1;b.classList.add('good');b.textContent='✅ '+r.sel;[...r.o.children].forEach(x=>x.disabled=true)}else{bad++;b.classList.remove('sel');b.classList.add('bad');b.disabled=true;b.textContent='❌ '+r.sel;r.sel=null}});
+  if(bad)fb.textContent='Try again! Talk and agree on a new answer. 🤝';else{fb.textContent='✅ Great teamwork!';reward(i,g)}}}
+function reward(i,g){act.innerHTML='<button class="btn" id="gc">Get the clue 🔑</button>';
+ gc.onclick=()=>{const c=i==0?`It has got ${list(g.c1.map(x=>pl(x[0])))}.`:i==1?`It has got ${list(g.c2.map(x=>pl(x[0])))}. I don’t like ${pl(g.c2[1][2])} in my sandwich.`:`Actions: ${list(acts(g))}.`;
+  st.done[i]=1;st.clues[i]=c;put(n,st);pr();act.innerHTML=`<div class="clue">🔑 ${c}</div>${bnr(i)}<button class="btn" onclick="play()">Next ▶</button>`;fb.textContent='🎉 Challenge complete!';stars()}}
+function final(g){const I=ings(g),A=acts(g),oi=shuf([...I,g.c2[1][2],...g.xi]),oa=shuf([...A,...g.xa]);
+ qd.innerHTML='<p><b>Ingredients:</b></p><div class="opts" id="ci"></div><p><b>Actions:</b></p><div class="opts" id="ca"></div>';
+ const mk=(arr,el)=>arr.forEach(w=>{const b=document.createElement('button');b.className='opt';b.setAttribute('aria-pressed','false');b.textContent=(E[w]?E[w][0]+' ':'')+w;b.dataset.w=w;b.onclick=()=>{const p=b.classList.toggle('sel');b.setAttribute('aria-pressed',p)};el.appendChild(b)});
+ mk(oi,ci);mk(oa,ca);act.innerHTML='<button class="btn" id="chk">We agree! Check our sandwich ✔</button>';
+ chk.onclick=()=>{const s=x=>[...x.children].filter(b=>b.classList.contains('sel')).map(b=>b.dataset.w).sort().join();
+  if(s(ci)==[...I].sort().join()&&s(ca)==[...A].sort().join()){st.done[3]=1;st.clues[3]='Sandwich complete!';st.sand={n:g.n,ing:I,act:A,ph:g.ph};put(n,st);win(1);stars()}
+  else{let r=0;[...ci.children].forEach(b=>{if(b.classList.contains('sel')==I.includes(b.dataset.w))r++});[...ca.children].forEach(b=>{if(b.classList.contains('sel')==A.includes(b.dataset.w))r++});fb.textContent=`Try again! ${r} of ${oi.length+oa.length} are right. Read your clues.`}}}
+function win(f){const s=st.sand;pr();
+ main.innerHTML=`<div class="grid"><div class="card" style="text-align:center"><h3>${s.n}</h3>${svg(s.ing)}</div><div class="card"><h2>🎉 Mission complete!</h2>${f?bnr(3):''}<p>Group ${n}, your sandwich is:</p><h2>${s.n}</h2><p>It has got:</p><div class="opts">${s.ing.map(w=>`<span class="chip">${E[w][0]} ${w}</span>`).join('')}</div><p>Actions:</p><div class="opts">${s.act.map(w=>`<span class="chip">${V[w]} ${w}</span>`).join('')}</div><p>Our badges:</p><div class="opts">${BD.map((b,k)=>`<span class="chip">${st.done[k]?b.i:'🔒'} ${b.n}</span>`).join('')}</div><p>Say it like an influencer: 🔊</p>${s.ph.map(t=>`<button class="say" onclick="say(this.textContent)">${t}</button>`).join('')}<a class="btn" href="index.html">Go back to the WebQuest 🏠</a><button class="pill" onclick="menu()">Other groups</button></div></div>`}
+function stars(){for(let i=0;i<10;i++){const s=document.createElement('span');s.className='st';s.textContent=['⭐','💖','🥪','✨'][i%4];s.style.left=10+Math.random()*80+'vw';s.style.top=50+Math.random()*30+'vh';document.body.appendChild(s);setTimeout(()=>s.remove(),1400)}}
+const fe=['🍞','🧀','🍅','🥓','🥒','🥑','🥚','🍖','🥬','🫒','⭐','💖'];
+for(let i=0;i<14;i++){const s=document.createElement('span');s.textContent=fe[i%12];s.style.cssText=`left:${Math.random()*96}%;font-size:${24+Math.random()*28}px;animation-duration:${14+Math.random()*16}s;animation-delay:-${Math.random()*25}s`;fl.appendChild(s)}
+menu();
+</script></body></html>
