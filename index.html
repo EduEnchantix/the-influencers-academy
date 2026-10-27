@@ -65,6 +65,22 @@ nav .btn{font-size:1.2rem;padding:6px 20px;background:var(--orange)}
 #msg{margin-top:18px;font-size:1.5rem;min-height:2em;color:var(--tomato)}
 .rule{background:var(--butter);border:4px dashed var(--ink);border-radius:24px;padding:14px 20px;margin:20px 0;font-family:'Baloo 2';font-size:clamp(1.3rem,2.6vw,1.9rem);color:var(--tomato);text-align:center}
 .steps .card h3{margin:6px 0}.steps .card p{font-size:1.1rem}
+.bl{list-style:none;padding:0;text-align:left;margin:8px 0 0}.bl li{position:relative;padding-left:1.6em;margin:7px 0;font-size:1.1rem;line-height:1.35}.bl li::before{content:"★";position:absolute;left:0;color:var(--pink)}
+.crit{border:3px dashed var(--pink);border-radius:20px;padding:12px 14px;margin:12px 0}
+.crit legend{font-family:'Baloo 2';font-size:1.25rem;padding:0 8px}
+.opts2{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
+.opts2 label{display:flex;align-items:center;gap:8px;font-size:1.15rem;cursor:pointer}
+.opts2 input{appearance:none;-webkit-appearance:none;width:32px;height:32px;border:3px solid var(--ink);border-radius:9px;background:#fff;cursor:pointer;display:grid;place-items:center;margin:0}
+.opts2 input:checked{background:var(--butter)}.opts2 input:checked::after{content:"✔";font-size:1.4rem;color:var(--tomato)}
+.opts2 input:focus-visible{outline:4px dashed var(--pink);outline-offset:3px}
+#ckForm select,#ckForm textarea{font:inherit;width:100%;border:3px solid var(--ink);border-radius:14px;padding:8px;background:#fffdf5;color:var(--ink)}
+#ckForm label.f{display:block;font-size:1.15rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#ckWarn{color:var(--tomato);min-height:1.5em;font-size:1.15rem}
+@media(max-width:600px){.two{grid-template-columns:1fr}}
+@media print{html,body{height:auto;overflow:visible;background:#fff}nav,#floaters,.noprint,.sticker{display:none!important}.screen{display:none!important}#scheck{display:block!important;position:static;padding:0;overflow:visible;animation:none}.card{box-shadow:none}}
+.bl.chk li{padding-left:0}.bl.chk li::before{content:none}
+button:disabled{opacity:.6;cursor:not-allowed}
 @media(max-width:800px){.hero{grid-template-columns:1fr}#dots button{font-size:0;padding:8px}#dots button.on{padding:8px 14px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important}}
 </style></head><body>
@@ -100,14 +116,29 @@ nav .btn{font-size:1.2rem;padding:6px 20px;background:var(--orange)}
 <section class="screen" id="sroles"><div class="wrap">
  <h2>Our Team Roles</h2>
  <p>Every team has 4 friends and 4 roles. You will use them in the Escape Room!</p>
- <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div class="card"><div class="big">🔍</div><h3>Clue Detective</h3><p>Reads each clue aloud and helps the team understand what it asks.</p></div><div class="card"><div class="big">📚</div><h3>Vocabulary Expert</h3><p>Helps the team remember and use the English vocabulary studied in class.</p></div><div class="card"><div class="big">💬</div><h3>Team Communicator</h3><p>Makes sure everyone has the opportunity to share their ideas and explain their reasoning.</p></div><div class="card"><div class="big">📋</div><h3>Progress Keeper</h3><p>Checks the team’s progress, keeps track of the clues solved and makes sure the group follows the mission.</p></div></div>
+ <div class="steps" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))"><div class="card"><div class="big">🔍</div><h3>Clue Detective</h3><ul class="bl"><li>Reads each clue aloud</li><li>Helps the team understand what it asks</li></ul></div><div class="card"><div class="big">📚</div><h3>Vocabulary Expert</h3><ul class="bl"><li>Helps the team remember the English words from class</li><li>Helps the team use them</li></ul></div><div class="card"><div class="big">💬</div><h3>Team Communicator</h3><ul class="bl"><li>Makes sure everybody shares their ideas</li><li>Asks friends to explain their answers</li></ul></div><div class="card"><div class="big">📋</div><h3>Progress Keeper</h3><ul class="bl"><li>Checks the team’s progress</li><li>Keeps track of the clues solved</li><li>Makes sure the group follows the mission</li></ul></div></div>
  <div class="rule">We all think, we all share, and we solve every clue together!</div>
  <p>🔄 You can change roles in every clue, so everybody can try different jobs.</p></div></section>
+<section class="screen" id="srub"><div class="wrap" style="text-align:center">
+ <h2>How Will We Be Assessed?</h2>
+ <div class="card"><div style="font-size:4rem">📋✅</div>
+ <p>Your teachers use rubrics. A rubric shows what you need to do and how your work will be checked.</p>
+ <p>Read the rubrics before you start. They help you to do your best!</p>
+ <a class="btn rub" style="text-decoration:none;display:inline-block;margin-top:14px">Open the rubrics 📋</a>
+ <p class="rubmsg" role="status" style="color:var(--tomato)"></p></div></div></section>
+<section class="screen" id="s4"><div class="wrap">
+ <h2>English Toolkit</h2>
+ <div class="tabs" id="tabs"></div>
+ <div id="panel"></div>
+ <p style="margin-top:12px;font-size:1rem">🔊 Click a card or a bubble to listen.</p></div></section>
 <section class="screen" id="s2"><div class="wrap">
  <h2>The Escape Room</h2>
  <p>4 teams. 4 kitchens. 4 secret sandwiches. Different challenges for every team! Click a door.</p>
+ <div class="card" id="req" style="margin:16px 0"><h3>Steps to unlock your Escape Room</h3>
+ <ul class="bl chk" id="reqList"></ul><p id="reqMsg" role="status" style="color:var(--tomato)"></p>
+ <button class="btn" id="reqNext" style="margin-bottom:6px">Next step ▶</button></div>
  <div class="teams" id="teams"></div>
- <p id="bar" role="status"></p><a class="btn" href="escape-room.html" style="text-decoration:none;display:inline-block;margin-bottom:14px">Open the Escape Room 🔑</a>
+ <p id="bar" role="status"></p><button class="btn go-room" id="openRoom" style="margin-bottom:14px" disabled>🔒 Escape Room locked</button>
  <div class="card"><p>Solve all the challenges. Then you can open your secret sandwich!</p></div></div></section>
 
 <section class="screen" id="s3"><div class="wrap hero">
@@ -121,12 +152,6 @@ nav .btn{font-size:1.2rem;padding:6px 20px;background:var(--orange)}
   <button class="say pk" data-say="You should dip it in sauce.">You should dip it in sauce.</button>
   <button class="btn" id="like" style="font-size:1.3rem;padding:6px 22px">❤️ <span id="lc">0</span></button></div></div></section>
 
-<section class="screen" id="s4"><div class="wrap">
- <h2>English Toolkit</h2>
- <div class="tabs" id="tabs"></div>
- <div id="panel"></div>
- <p style="margin-top:12px;font-size:1rem">🔊 Click a card or a bubble to listen.</p></div></section>
-
 <section class="screen" id="s5"><div class="wrap" style="text-align:center;padding-top:4vh">
  <h1>Are you ready?</h1>
  <p style="margin:18px auto;max-width:640px">You know your mission. You have your toolkit. Your group is waiting in the kitchen!</p>
@@ -136,22 +161,46 @@ nav .btn{font-size:1.2rem;padding:6px 20px;background:var(--orange)}
 
 <section class="screen" id="s6"><div class="wrap">
  <h2>Phase 2: Be an Influencer!</h2>
- <div id="l6" class="card"><p>🔒 Finish your Escape Room first. Then this page opens!</p><a class="btn" href="escape-room.html" style="text-decoration:none;display:inline-block;margin-top:12px">Open the Escape Room 🔑</a></div>
+ <div id="l6" class="card"><p>🔒 Finish your Escape Room first. Then this page opens!</p><button class="btn go-room" style="margin-top:12px">Open the Escape Room 🔑</button></div>
  <div id="o6"><div class="steps" id="mine"></div>
  <div class="card" style="margin-top:18px"><h3>Your presentation</h3><p>1. Say the name of your sandwich.<br>2. Say what is in it.<br>3. Tell your followers to try it!<br>⭐ You talk live. No video!</p><div id="mod"></div></div>
- <button class="btn" id="pres" style="margin-top:18px">✅ We did our presentation</button>
+ <a class="btn rub" style="text-decoration:none;display:inline-block;margin:18px 12px 0 0">📋 Check the rubrics</a><button class="btn toCk" style="margin:18px 12px 0 0">📝 Peer checklist</button><button class="btn" id="pres" style="margin-top:18px">✅ We did our presentation</button>
  <p style="font-size:1rem">Students or teacher: press this button after your live presentation.</p></div></div></section>
 <section class="screen" id="s7"><div class="wrap" style="text-align:center">
  <h2>Phase 3: The Best Sandwich in Tenerife</h2>
  <div id="l7" class="card"><p>🔒 This page opens after your presentation.</p></div>
- <div id="o7"><p>Listen to all the teams. Vote in class. Then press the winner!</p>
+ <div id="o7"><p>Listen to all the teams. Use your peer checklists. Do not vote for your own group! Then press the winner.</p><button class="btn toCk">📝 Open the peer checklist</button>
  <div class="teams" id="vote" style="margin:20px 0"></div><div id="win"></div></div></div></section>
+<section class="screen" id="scheck"><div class="wrap">
+ <h2>Peer Checklist: Be a Fair Judge!</h2>
+ <div class="card"><h3>Before you start</h3><ul class="bl">
+ <li>Watch each presentation. Then fill in the checklist.</li>
+ <li>Fill in one checklist for EACH group you watch.</li>
+ <li>Write the name of the group you are watching.</li>
+ <li>Do not vote for your own group.</li>
+ <li>Use your checklists to decide who deserves your vote.</li>
+ <li>Be kind, fair and honest!</li></ul>
+ <p style="font-size:1rem">This checklist helps you to vote. It is not the teacher’s assessment.</p></div>
+ <form class="card" id="ckForm" style="margin-top:18px" onsubmit="return false">
+ <div class="two"><label class="f">Our group:<select id="ckOwn"><option value="">Choose…</option><option>Group 1</option><option>Group 2</option><option>Group 3</option><option>Group 4</option></select></label><label class="f">The group we are watching:<select id="ckGroup"><option value="">Choose…</option><option>Group 1</option><option>Group 2</option><option>Group 3</option><option>Group 4</option></select></label></div>
+ <p id="ckWarn" role="alert"></p>
+ <fieldset class="crit"><legend>1. They describe their sandwich clearly in English.</legend><div class="opts2"><label><input type="radio" name="c1" value="Yes"> Yes</label><label><input type="radio" name="c1" value="A little"> A little</label><label><input type="radio" name="c1" value="Not yet"> Not yet</label></div></fieldset>
+ <fieldset class="crit"><legend>2. They use the words and sentences from class.</legend><div class="opts2"><label><input type="radio" name="c2" value="Yes"> Yes</label><label><input type="radio" name="c2" value="A little"> A little</label><label><input type="radio" name="c2" value="Not yet"> Not yet</label></div></fieldset>
+ <fieldset class="crit"><legend>3. They say why the ingredients go well together.</legend><div class="opts2"><label><input type="radio" name="c3" value="Yes"> Yes</label><label><input type="radio" name="c3" value="A little"> A little</label><label><input type="radio" name="c3" value="Not yet"> Not yet</label></div></fieldset>
+ <fieldset class="crit"><legend>4. The sandwich is creative and original.</legend><div class="opts2"><label><input type="radio" name="c4" value="Yes"> Yes</label><label><input type="radio" name="c4" value="A little"> A little</label><label><input type="radio" name="c4" value="Not yet"> Not yet</label></div></fieldset>
+ <fieldset class="crit"><legend>5. Everybody in the group speaks.</legend><div class="opts2"><label><input type="radio" name="c5" value="Yes"> Yes</label><label><input type="radio" name="c5" value="A little"> A little</label><label><input type="radio" name="c5" value="Not yet"> Not yet</label></div></fieldset>
+ <label class="f">Notes:<textarea rows="3" id="ckNotes" placeholder="Write your notes here"></textarea></label>
+ <label class="f" style="margin-top:12px">Why do you think this sandwich deserves your vote?<textarea rows="3" id="ckWhy"></textarea></label>
+ <div class="noprint" style="margin-top:10px"><button class="btn" type="button" id="ckPrint">🖨️ Print</button><button class="btn" type="button" id="ckNew" style="background:var(--orange)">New checklist ↺</button></div>
+ </form></div></section>
 <nav><button class="btn" id="prev" aria-label="Previous">◀</button><div id="dots"></div><button class="btn" id="next" aria-label="Next">▶</button></nav>
 
 <script>
-const names=["Welcome","Mission","Objectives","Team Roles","Escape Room","Final Challenge","Toolkit","Ready?","Phase 2","Phase 3"];
+// >>> PASTE YOUR CANVA RUBRICS LINK BETWEEN THE QUOTES (it must start with https://) <<<
+const RUBRICS_URL="https://canva.link/rubrics";
+const names=["Welcome","Mission","Objectives","Team Roles","Rubrics","Toolkit","Escape Room","Final Challenge","Ready?","Phase 2","Phase 3","Checklist"];
 const cols=['#ffc4d8','#ffd2a1','#fff0a8','#ffb3a6'],ic=['🔒','🔐','🗝️','🚪'];
-let cur=0;const S=[...document.querySelectorAll('.screen')];
+let cur=0;const S=[...document.querySelectorAll('.screen')],ix=id=>S.findIndex(x=>x.id===id);
 const say=t=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang='en-GB';u.rate=.8;speechSynthesis.speak(u)}catch(e){}};
 function go(n){cur=Math.max(0,Math.min(S.length-1,n));S.forEach((s,i)=>{s.classList.toggle('on',i===cur);if(i===cur)s.scrollTop=0});
  document.querySelectorAll('#dots button').forEach((b,i)=>b.classList.toggle('on',i===cur));
@@ -165,9 +214,12 @@ for(let i=0;i<18;i++){const s=document.createElement('span');s.textContent=fl[i%
 // sticker burst
 function burst(x,y){const e=['⭐','💖','🍅','🧀','✨','🥪'];for(let i=0;i<4;i++){const s=document.createElement('span');s.className='sticker';s.textContent=e[Math.random()*e.length|0];s.style.left=x+(Math.random()*80-40)+'px';s.style.top=y+(Math.random()*30-15)+'px';document.body.appendChild(s);setTimeout(()=>s.remove(),1100)}}
 document.querySelectorAll('#sand g').forEach(g=>g.addEventListener('click',e=>{g.classList.remove('b');void g.getBoundingClientRect();g.classList.add('b');burst(e.clientX,e.clientY)}));
-// teams (status comes from escape-room.html)
+// teams = the 4 doors (state is drawn in refresh())
 cols.forEach((c,i)=>{const b=document.createElement('button');b.className='card team';b.style.background=c;b.dataset.n=i+1;
- b.onclick=e=>{b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');if(!done()[i+1])b.querySelector('small').textContent='Shh! It is a secret! 🤫';burst(e.clientX,e.clientY)};teams.appendChild(b)});
+ b.onclick=e=>{const n=i+1;b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');
+  if(!stepsDone()){reqMsg.textContent=MSG;return}
+  if(myGroup()&&myGroup()!==n&&!confirm('Change your group to Group '+n+'?'))return;
+  try{localStorage.setItem('ia_group',n)}catch(x){}burst(e.clientX,e.clientY);refresh()};teams.appendChild(b)});
 // like
 let l=0;like.onclick=e=>{lc.textContent=++l;burst(e.clientX,e.clientY)};
 document.querySelectorAll('.say').forEach(b=>b.onclick=()=>say(b.dataset.say));
@@ -183,17 +235,31 @@ function show(i){panel.innerHTML=views[i][1]();[...tabs.children].forEach((t,j)=
  panel.querySelectorAll('.say').forEach(b=>b.onclick=()=>say(b.dataset.say))}
 views.forEach((v,i)=>{const b=document.createElement('button');b.className='pill';b.textContent=v[0];b.onclick=()=>show(i);tabs.appendChild(b)});
 show(0);
-start.onclick=e=>{burst(e.clientX,e.clientY);setTimeout(()=>location.href='escape-room.html',350)};
+start.onclick=e=>{burst(e.clientX,e.clientY);setTimeout(openRoomGate,350)};
 // ---- progress saved by escape-room.html (same keys, same check) ----
 const KEY='ia_progress_v1',hash=s=>{let h=5381;for(const c of 'ia-'+s)h=(h*33^c.charCodeAt(0))>>>0;return h.toString(36)};
 const ls=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
 function done(){let g={};try{g=JSON.parse(ls(KEY)).g||{}}catch(e){}const r={};for(let n=1;n<=4;n++){const o=g[n];if(o&&o.sand&&o.done&&o.done.length==4&&o.done.every(Boolean)&&o.s===hash(n+JSON.stringify([o.done,o.clues,o.sand])))r[n]=o.sand}return r}
 const EM={bread:'🍞',cheese:'🧀',ham:'🍖',chicken:'🐔',tuna:'🐟',tomato:'🍅',lettuce:'🥬',egg:'🥚',butter:'🧈',sauce:'🥫',salt:'🧂',onion:'🧅',avocado:'🥑',pepper:'⚫',olives:'🫒',cucumber:'🥒',turkey:'🦃',sausage:'🌭',bacon:'🥓',pickles:'🫙'};
+// ---- access control: the Escape Room opens only after the WebQuest steps, in order ----
+const REQ=[['s1','Mission'],['sobj','Our Learning Objectives'],['sroles','Our Team Roles'],['srub','How Will We Be Assessed?'],['s4','English Toolkit']];
+const SK='ia_steps_v1',MSG='Keep exploring! Complete the previous steps to unlock your Escape Room!';
+const readSteps=()=>{try{const o=JSON.parse(ls(SK));return o&&o.s===hash('st'+o.v.join())?o.v:[]}catch(e){return[]}};
+function markStep(id){const i=REQ.findIndex(r=>r[0]===id);if(i<0)return;const v=readSteps();if(v.length===i){v.push(id);try{localStorage.setItem(SK,JSON.stringify({v,s:hash('st'+v.join())}))}catch(e){}}}
+const stepsDone=()=>readSteps().length===REQ.length;
+const myGroup=()=>{const g=+ls('ia_group');return g>=1&&g<=4?g:0};
+const roomUrl=()=>stepsDone()&&myGroup()?'escape-room.html?group='+myGroup():null;
+function openRoomGate(){const u=roomUrl();if(u){location.href=u;return}go(ix('s2'));reqMsg.textContent=stepsDone()?'Choose your group’s door first! 🚪':MSG}
 let unl6=false,unl7=false;
 function refresh(){const d=done(),k=Object.keys(d),pd=ls('ia_presented')==='1',w=ls('ia_winner');unl6=k.length>0;unl7=unl6&&pd;
- document.querySelectorAll('#teams .team').forEach(b=>{const n=b.dataset.n,s=d[n];b.innerHTML=`<span class="lock">${s?'✅':ic[n-1]}</span><h3>Group ${n}</h3><small>${s?s.n:''}</small>`});
+ const ok=stepsDone(),mg=myGroup(),sd=readSteps().length;
+ document.querySelectorAll('#teams .team').forEach(b=>{const n=+b.dataset.n,s=d[n];b.innerHTML=`<span class="lock">${s?'✅':!ok?'🔒':!mg?'🚪':n===mg?'🔑':'🔒'}</span><h3>Group ${n}</h3><small>${s?s.n+(n===mg?' · Your room!':''):!ok?'Locked':!mg?'Click to choose':n===mg?'Your room!':'Locked'}</small>`;b.setAttribute('aria-pressed',n===mg)});
+ reqList.innerHTML=REQ.map((r,k)=>`<li>${k<sd?'✅':k===sd?'👉':'⬜'} ${k+1}. ${r[1]}${k<sd?' – done':k===sd?' – next':''}</li>`).join('');
+ reqNext.style.display=ok?'none':'inline-block';if(!ok)reqNext.onclick=()=>go(ix(REQ[sd][0]));
+ reqMsg.textContent=ok?(mg?'🎉 Your Escape Room is unlocked!':'🎉 Great job! Click your group’s door to choose it.'):MSG;
+ openRoom.disabled=!roomUrl();openRoom.textContent=roomUrl()?'Open the Group '+mg+' Escape Room 🔑':'🔒 Escape Room locked';
  bar.textContent=unl6?'🏆 Mission complete! You found your sandwich: '+k.map(n=>'Group '+n+' – '+d[n].n).join(' · '):'🔒 Finish the Escape Room to open Phase 2 and Phase 3.';
- const dt=document.querySelectorAll('#dots button');dt[8].textContent='Phase 2 '+(unl6?'✅':'🔒');dt[9].textContent='Phase 3 '+(unl7?'✅':'🔒');
+ const dt=document.querySelectorAll('#dots button');dt[6].textContent='Escape Room '+(roomUrl()?'🔓':'🔒');dt[9].textContent='Phase 2 '+(unl6?'✅':'🔒');dt[10].textContent='Phase 3 '+(unl7?'✅':'🔒');
  l6.style.display=unl6?'none':'block';o6.style.display=unl6?'block':'none';l7.style.display=unl7?'none':'block';o7.style.display=unl7?'block':'none';
  mine.innerHTML=k.map(n=>`<div class="card" style="text-align:center"><h3>Group ${n}: ${d[n].n}</h3><div style="font-size:2.4rem">${d[n].ing.map(i=>EM[i]).join('')}</div>${d[n].ph.map(t=>`<button class="say ${n%2?'pk':'or'}" data-say="${t}">${t}</button>`).join('')}</div>`).join('');
  mod.innerHTML=SENT.map(x=>`<button class="say ${x[3]}" data-say="${x[1]}">${x[1]}</button>`).join('');
@@ -202,9 +268,16 @@ function refresh(){const d=done(),k=Object.keys(d),pd=ls('ia_presented')==='1',w
  vote.innerHTML=[1,2,3,4].map(n=>`<button class="card team" data-v="${n}" style="background:${cols[n-1]}"><span class="lock">${ic[n-1]}</span><h3>Group ${n}</h3><small>${d[n]?d[n].n:''}</small></button>`).join('');
  vote.querySelectorAll('button').forEach(b=>b.onclick=e=>{try{localStorage.setItem('ia_winner',b.dataset.v)}catch(x){}burst(e.clientX,e.clientY);refresh()});
  win.innerHTML=w?`<div class="card" style="background:var(--butter)"><div style="font-size:4rem">🏆🥪🎉</div><h2>The Best Sandwich in Tenerife is... Group ${w}${d[w]?': '+d[w].n:''}!</h2><p>Congratulations! You are real food influencers! ⭐</p></div>`:''}
-document.getElementById('pres').onclick=()=>{if(confirm('Did you really do your live presentation?')){try{localStorage.setItem('ia_presented','1')}catch(e){}refresh();go(9)}};
+document.getElementById('pres').onclick=()=>{if(confirm('Did you really do your live presentation?')){try{localStorage.setItem('ia_presented','1')}catch(e){}refresh();go(ix('s7'))}};
 addEventListener('pageshow',refresh);addEventListener('storage',refresh);
-const _go=go;go=function(n){if(n===8||n===9)refresh();_go(n)};
+const _go=go;go=function(n){const c=Math.max(0,Math.min(S.length-1,n));markStep(S[c].id);refresh();_go(n)};
+document.querySelectorAll('.rub').forEach(a=>{if(/^https:\/\//.test(RUBRICS_URL)){a.href=RUBRICS_URL;a.target='_blank';a.rel='noopener noreferrer'}else{a.href='#';a.onclick=e=>{e.preventDefault();document.querySelectorAll('.rubmsg').forEach(m=>m.textContent='The rubrics link is coming soon. Ask your teacher!')}}});
+document.querySelectorAll('.toCk').forEach(b=>b.onclick=()=>go(ix('scheck')));
+function ckCheck(){const same=ckOwn.value&&ckOwn.value===ckGroup.value;ckWarn.textContent=same?'❌ Oops! You cannot assess your own group. Choose a different group.':'';ckGroup.setAttribute('aria-invalid',!!same)}
+ckOwn.onchange=ckGroup.onchange=ckCheck;
+ckPrint.onclick=()=>{if(ckGroup.value&&ckOwn.value===ckGroup.value){ckCheck();return}window.print()};
+ckNew.onclick=()=>{if(confirm('Start a new checklist? This one will be cleared.')){const o=ckOwn.value;ckForm.reset();ckOwn.value=o;ckCheck()}};
+document.querySelectorAll('.go-room').forEach(b=>b.onclick=openRoomGate);
 refresh();
 go(0);
 </script></body></html>
